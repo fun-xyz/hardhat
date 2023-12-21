@@ -1,5 +1,5 @@
 {
-  "name": "@nomicfoundation/hardhat-foundry",
+  "name": "k-fun-hardhat-foundry",
   "version": "1.1.1",
   "description": "Hardhat plugin that adds Hardhat support to Foundry projects",
   "repository": "github:nomicfoundation/hardhat",
