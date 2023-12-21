@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { exec as execCallback, execSync } from "child_process";
+import fs from "fs";
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import { promisify } from "util";
 
@@ -7,7 +8,7 @@ const exec = promisify(execCallback);
 
 type Remappings = Record<string, string>;
 
-let cachedRemappings: Promise<Remappings> | undefined;
+let cachedRemappings: Promise<Remappings> | Remappings | undefined;
 
 // Return a default Foundry configuration if Foundry is not installed.
 const DEFAULT_FOUNDRY_CONFIG = {
@@ -78,7 +79,13 @@ export function parseRemappings(remappingsTxt: string): Remappings {
 export async function getRemappings() {
   // Get remappings only once
   if (cachedRemappings === undefined) {
-    cachedRemappings = runCmd("forge remappings").then(parseRemappings);
+    try {
+      cachedRemappings = runCmd("forge remappings").then(parseRemappings);
+    } catch {
+      cachedRemappings = parseRemappings(
+        fs.readFileSync("remappings.txt", "utf-8")
+      );
+    }
   }
 
   return cachedRemappings;
