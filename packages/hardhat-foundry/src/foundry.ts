@@ -11,9 +11,9 @@ let cachedRemappings: Promise<Remappings> | undefined;
 
 // Return a default Foundry configuration if Foundry is not installed.
 const DEFAULT_FOUNDRY_CONFIG = {
-  src: 'src',
-  cache_path: 'cache',
-}
+  src: "src",
+  cache_path: "cache",
+};
 
 export class HardhatFoundryError extends NomicLabsHardhatPluginError {
   constructor(message: string, parent?: Error) {
@@ -38,10 +38,7 @@ export function getForgeConfig() {
     const json = runCmdSync("forge config --json");
     return JSON.parse(json);
   } catch (error) {
-    if (error instanceof HardhatFoundryError) {
-      return DEFAULT_FOUNDRY_CONFIG;
-    }
-    throw error;
+    return DEFAULT_FOUNDRY_CONFIG;
   }
 }
 
