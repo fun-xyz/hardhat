@@ -81,6 +81,7 @@ export async function getRemappings() {
   if (cachedRemappings === undefined) {
     try {
       cachedRemappings = runCmd("forge remappings").then(parseRemappings);
+      await cachedRemappings;
     } catch {
       cachedRemappings = parseRemappings(
         fs.readFileSync("remappings.txt", "utf-8")
